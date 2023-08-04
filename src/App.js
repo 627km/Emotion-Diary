@@ -14,7 +14,7 @@ const reducer = (state, action) => {
       return action.data;
     }
     case "CREATE": {
-      newState = [...action.data, ...newState];
+      newState = [action.data, ...state];
       break;
     }
     case "REMOVE": {
@@ -25,6 +25,7 @@ const reducer = (state, action) => {
       newState = state.map((it) =>
         it.id === action.data.id ? { ...action.data } : it
       );
+      break;
     }
     default:
       return state;
@@ -72,6 +73,7 @@ function App() {
   const [data, dispatch] = useReducer(reducer, dummyData);
 
   const dataId = useRef(0);
+
   const onCreate = (date, content, emotion) => {
     dispatch({
       type: "CREATE",
