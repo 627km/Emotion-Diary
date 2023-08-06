@@ -14,7 +14,10 @@ const reducer = (state, action) => {
       return action.data;
     }
     case "CREATE": {
-      newState = [action.data, ...state];
+      const newItem = {
+        ...action.data,
+      };
+      newState = [newItem, ...state];
       break;
     }
     case "REMOVE": {
@@ -72,14 +75,15 @@ const dummyData = [
 function App() {
   const [data, dispatch] = useReducer(reducer, dummyData);
 
-  const dataId = useRef(0);
+  const dataId = useRef(6);
 
+  // CREATE
   const onCreate = (date, content, emotion) => {
     dispatch({
       type: "CREATE",
       data: {
         id: dataId.current,
-        data: new Date(date).getTime(),
+        date: new Date(date).getTime(),
         content,
         emotion,
       },
@@ -87,10 +91,12 @@ function App() {
     dataId.current += 1;
   };
 
+  // REMOVE
   const onRemove = (targetId) => {
     dispatch({ type: "REMOVE", targetId });
   };
 
+  // EDIT
   const onEdit = (targetId, date, content, emotion) => {
     dispatch({
       type: "EDIT",
@@ -114,9 +120,6 @@ function App() {
       >
         <BrowserRouter>
           <div className="App">
-            {/* process.env.PUBLIC_URL : 현재 파일이 어디있든 상관없이 바로 public 디렉토리를 가리키게 된다 */}
-            {/* <img src={process.env.PUBLIC_URL + `/assets/emotion1.png`} /> */}
-
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/new" element={<New />} />

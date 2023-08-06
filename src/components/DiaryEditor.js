@@ -15,6 +15,7 @@ const DiaryEditor = ({ isEdit, originData }) => {
 
   const { onCreate, onEdit } = useContext(DiaryDispatchContext);
   const navigate = useNavigate();
+
   const handleSubmit = () => {
     if (content.length < 1) {
       contentRef.current.focus();
